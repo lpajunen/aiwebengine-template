@@ -17,5 +17,9 @@ stub first, pins it, then copies `starter/` into the new script, replacing
 `__NAME__` with the script's name and `__SNAKE__` with the same name using
 underscores.
 
+Handlers live in `lib/handlers.ts` and are made global in `main.ts` with
+`Object.assign(globalThis, {...})`, so a test can import and call them with the
+`makeContext` helper in `lib/testing.ts`.
+
 Every starter has tests, a `check_script` that passes, and no secrets. Change
 a template only together with the evaluation tasks that use it.

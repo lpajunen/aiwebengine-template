@@ -1,11 +1,9 @@
-import { example } from "./lib/example.ts";
+import { exampleTool } from "./lib/handlers.ts";
 
-// An MCP tool's handler receives its arguments in context.args and returns
-// plain data. Throw an Error for a failure the caller should see.
-function exampleTool(context: HandlerContext) {
-  const args = (context.args ?? {}) as { text?: string };
-  return { result: example(String(args.text ?? "")) };
-}
+// The engine finds a handler by the name registerTool is given, among this
+// file's globals. Handlers live in lib/ (so tests can import them), so list
+// each one here: add every handler you register to this object.
+Object.assign(globalThis, { exampleTool });
 
 function init(): void {
   const result = mcpRegistry.registerTool("__SNAKE__", {

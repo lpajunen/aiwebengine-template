@@ -1,12 +1,9 @@
-import { renderPage } from "./lib/page.ts";
+import { home } from "./lib/handlers.ts";
 
-// Handlers are top-level functions, named by string in init().
-function home(context: HandlerContext): HttpResponse {
-  const name = context.request?.query.name ?? "visitor";
-  return ResponseBuilder.html(
-    renderPage("__NAME__", `<p>Hello, ${name}. Replace this page.</p>`),
-  );
-}
+// The engine finds a handler by the name registerRoute is given, among this
+// file's globals. Handlers live in lib/ (so tests can import them), so list
+// each one here: add every handler you register to this object.
+Object.assign(globalThis, { home });
 
 function init(): void {
   const results = [
