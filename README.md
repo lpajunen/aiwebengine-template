@@ -23,3 +23,8 @@ Handlers live in `lib/handlers.ts` and are made global in `main.ts` with
 
 Every starter has tests, a `check_script` that passes, and no secrets. Change
 a template only together with the evaluation tasks that use it.
+
+## License
+
+Licensed under either of [MIT](LICENSE-MIT) or [Apache-2.0](LICENSE-APACHE), at
+your option.
