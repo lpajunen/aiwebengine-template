@@ -14,6 +14,10 @@ engine they run on, and the rules for changing it:
 
 ## Before a pull request
 
+```bash
+make verify     # formatting, Markdown and types against the engine's API: what CI runs
+```
+
 - Every starter keeps its tests passing, a `check_script` that passes, and no
   secrets.
 - Update the README where the change makes it untrue. It describes what is

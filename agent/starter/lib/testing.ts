@@ -21,6 +21,16 @@ export function makeContext(
   args?: Record<string, unknown>,
 ) {
   const body = request.json === undefined ? "" : JSON.stringify(request.json);
+  const user =
+    request.userId === undefined
+      ? null
+      : {
+          id: request.userId,
+          email: null,
+          name: null,
+          provider: null,
+          isAuthenticated: true,
+        };
   const headers: Record<string, string> = {};
   for (const key of Object.keys(request.headers ?? {})) {
     headers[key.toLowerCase()] = (request.headers ?? {})[key];
@@ -31,18 +41,32 @@ export function makeContext(
       method: request.method ?? "GET",
       path: request.path ?? "/",
       query: request.query ?? {},
+      searchParams: new URLSearchParams(request.query ?? {}),
       params: request.params ?? {},
-      headers: Object.assign({}, headers, {
-        get: (name: string) => headers[name.toLowerCase()] ?? null,
-      }),
+      headers: Object.assign(new Headers(headers), headers),
       form: request.form ?? {},
+      files: [],
       body: body,
       text: () => body,
       // Throws on a body that is not JSON, as the engine's does.
       json: () => JSON.parse(body),
       auth: {
-        isAuthenticated: request.userId !== undefined,
-        userId: request.userId ?? null,
+        isAuthenticated: user !== null,
+        isAdmin: false,
+        isEditor: false,
+        userId: user?.id ?? null,
+        userEmail: null,
+        userName: null,
+        provider: null,
+        user,
+        requireAuth() {
+          if (user === null) {
+            throw new Error(
+              "Authentication required. Please login to access this resource.",
+            );
+          }
+          return user;
+        },
       },
     },
   };
